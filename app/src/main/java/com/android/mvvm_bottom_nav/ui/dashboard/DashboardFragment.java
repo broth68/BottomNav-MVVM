@@ -11,25 +11,46 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import dagger.android.support.AndroidSupportInjection;
 
 import com.android.mvvm_bottom_nav.R;
+import com.android.mvvm_bottom_nav.di.ViewModelFactory;
+
+import javax.inject.Inject;
 
 public class DashboardFragment extends Fragment {
 
+    @Inject
+    public ViewModelFactory viewModelFactory;
+
     private DashboardViewModel dashboardViewModel;
+
+    private TextView textView;
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        AndroidSupportInjection.inject(this);
+
+        dashboardViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(DashboardViewModel.class);
+
+        dashboardViewModel.getText().observe(this, s -> textView.setText(s));
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        textView = view.findViewById(R.id.text_dashboard);
+
     }
 }
