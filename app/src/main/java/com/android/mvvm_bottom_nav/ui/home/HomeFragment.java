@@ -11,25 +11,45 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import dagger.android.support.AndroidSupportInjection;
 
 import com.android.mvvm_bottom_nav.R;
+import com.android.mvvm_bottom_nav.di.ViewModelFactory;
+
+import javax.inject.Inject;
 
 public class HomeFragment extends Fragment {
 
+    @Inject
+    public ViewModelFactory viewModelFactory;
+
     private HomeViewModel homeViewModel;
+
+    private TextView textView;
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        AndroidSupportInjection.inject(this);
+
+        homeViewModel = ViewModelProviders.of(this, viewModelFactory)
+                .get(HomeViewModel.class);
+
+        homeViewModel.getText().observe(this, s -> textView.setText(s));
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        textView = view.findViewById(R.id.text_home);
     }
 }
