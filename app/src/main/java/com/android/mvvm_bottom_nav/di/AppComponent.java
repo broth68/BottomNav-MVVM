@@ -5,6 +5,7 @@ import android.app.Application;
 import com.android.mvvm_bottom_nav.BottomNavApp;
 import com.android.mvvm_bottom_nav.di.modules.AppModule;
 import com.android.mvvm_bottom_nav.di.modules.MainActivityModule;
+import com.android.mvvm_bottom_nav.di.modules.RoomModule;
 
 import javax.inject.Singleton;
 
@@ -16,7 +17,8 @@ import dagger.android.AndroidInjectionModule;
 @Component(modules = {
         AndroidInjectionModule.class,
         AppModule.class,
-        MainActivityModule.class
+        MainActivityModule.class,
+        RoomModule.class
 })
 public interface AppComponent {
     @Component.Builder

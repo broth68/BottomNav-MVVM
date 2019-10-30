@@ -1,33 +1,26 @@
 package com.android.mvvm_bottom_nav.ui.dashboard;
 
-import com.android.mvvm_bottom_nav.Card;
+import com.android.mvvm_bottom_nav.data.Book;
+import com.android.mvvm_bottom_nav.data.BookRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class DashboardViewModel extends ViewModel {
 
-    private MutableLiveData<List<Card>> dashboardData;
+    private final LiveData<List<Book>> books;
 
     @Inject
-    public DashboardViewModel() {
-        dashboardData = new MutableLiveData<>();
+    public DashboardViewModel(BookRepository bookRepository) {
 
-        List<Card> cards = new ArrayList<>();
-        for (int i = 0 ; i < 5 ; i++) {
-            cards.add(new Card("Card " + (i + 1)));
-        }
-
-        dashboardData.setValue(cards);
+        this.books = bookRepository.getBooks();
     }
 
-    public LiveData<List<Card>> getCards() {
-        return dashboardData;
+    public LiveData<List<Book>> getBooks() {
+        return books;
     }
 }

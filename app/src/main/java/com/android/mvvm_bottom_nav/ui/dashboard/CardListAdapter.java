@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.android.mvvm_bottom_nav.Card;
+import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.R;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> {
 
-    private List<Card> cardList = new ArrayList<>();
+    private List<Book> bookList = new ArrayList<>();
     private Context context;
     private final OnItemClickListener listener;
 
@@ -36,33 +36,33 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
     @Override
     public void onBindViewHolder(CardViewHolder holder, final int position) {
         // Get the data model based on position
-        final Card card = cardList.get(position);
+        final Book book = bookList.get(position);
 
-        holder.title.setText(card.getTitle());
-        holder.bind(card, listener);
-        holder.itemView.setOnClickListener(v -> listener.onItemClick(card));
+        holder.title.setText(book.getTitle());
+        holder.bind(book, listener);
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(book));
     }
 
     @Override
     public int getItemCount() {
-        return cardList.size();
+        return bookList.size();
     }
 
-    public Card getItemAt(int position) {
-        return cardList.get(position);
+    public Book getItemAt(int position) {
+        return bookList.get(position);
     }
 
-    public List<Card> getData() {
-        return cardList;
+    public List<Book> getData() {
+        return bookList;
     }
 
-    public void setData(List<Card> cardList) {
-        this.cardList = cardList;
+    public void setData(List<Book> bookList) {
+        this.bookList = bookList;
         notifyDataSetChanged();
     }
 
     public void clearAdapter() {
-        cardList.clear();
+        bookList.clear();
         notifyDataSetChanged();
     }
 
@@ -79,13 +79,13 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
             title = (TextView) itemView.findViewById(R.id.title);
         }
 
-        public void bind(final Card item, final OnItemClickListener listener) {
+        public void bind(final Book item, final OnItemClickListener listener) {
             return;
         }
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Card item);
+        void onItemClick(Book item);
     }
 
 }

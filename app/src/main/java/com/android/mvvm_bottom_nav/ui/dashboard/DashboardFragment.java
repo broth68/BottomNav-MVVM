@@ -11,12 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.AndroidSupportInjection;
 
-import com.android.mvvm_bottom_nav.Card;
+import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.R;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 
@@ -42,7 +41,7 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
         dashboardViewModel = ViewModelProviders.of(this, viewModelFactory)
                 .get(DashboardViewModel.class);
 
-        dashboardViewModel.getCards().observe(this, cards -> {
+        dashboardViewModel.getBooks().observe(this, cards -> {
             cardListAdapter.setData(cards);
         });
     }
@@ -67,7 +66,7 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
     }
 
     @Override
-    public void onItemClick(Card item) {
+    public void onItemClick(Book item) {
         Toast.makeText(getContext(), item.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
     }
 }
