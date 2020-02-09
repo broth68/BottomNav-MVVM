@@ -6,17 +6,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import dagger.android.support.AndroidSupportInjection;
-
 import com.android.mvvm_bottom_nav.R;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import dagger.android.support.AndroidSupportInjection;
 
 public class NotificationsFragment extends Fragment {
 
@@ -34,10 +33,10 @@ public class NotificationsFragment extends Fragment {
 
         AndroidSupportInjection.inject(this);
 
-        notificationsViewModel = ViewModelProviders.of(this, viewModelFactory)
+        notificationsViewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(NotificationsViewModel.class);
 
-        notificationsViewModel.getText().observe(this, s -> textView.setText(s));
+        notificationsViewModel.getText().observe(getViewLifecycleOwner(), s -> textView.setText(s));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
