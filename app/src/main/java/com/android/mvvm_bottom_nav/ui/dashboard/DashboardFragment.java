@@ -7,22 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import dagger.android.support.AndroidSupportInjection;
-
-import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.R;
+import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import dagger.android.support.AndroidSupportInjection;
 
 public class DashboardFragment extends Fragment implements CardListAdapter.OnItemClickListener {
 
@@ -44,12 +44,11 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
 
         AndroidSupportInjection.inject(this);
 
-        dashboardViewModel = ViewModelProviders.of(this, viewModelFactory)
+        dashboardViewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(DashboardViewModel.class);
 
-        dashboardViewModel.getBooks().observe(this, cards -> {
-            cardListAdapter.setData(cards);
-        });
+        dashboardViewModel.getBooks().observe(getViewLifecycleOwner(),
+                cards -> cardListAdapter.setData(cards));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

@@ -7,7 +7,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,12 +14,12 @@ import androidx.navigation.ui.NavigationUI;
 import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.support.HasSupportFragmentInjector;
+import dagger.android.HasAndroidInjector;
 
-public class MainActivity extends AppCompatActivity implements HasSupportFragmentInjector {
+public class MainActivity extends AppCompatActivity implements HasAndroidInjector {
 
     @Inject
-    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<Object> androidInjector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +46,7 @@ public class MainActivity extends AppCompatActivity implements HasSupportFragmen
     }
 
     @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return dispatchingAndroidInjector;
+    public AndroidInjector<Object> androidInjector() {
+        return androidInjector;
     }
-
 }

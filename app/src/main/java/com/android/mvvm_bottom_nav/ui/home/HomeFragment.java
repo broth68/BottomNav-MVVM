@@ -8,18 +8,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import dagger.android.support.AndroidSupportInjection;
-
 import com.android.mvvm_bottom_nav.R;
 import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 import com.android.mvvm_bottom_nav.ui.UiHelper;
 
 import javax.inject.Inject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import dagger.android.support.AndroidSupportInjection;
 
 public class HomeFragment extends Fragment {
 
@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment {
 
         AndroidSupportInjection.inject(this);
 
-        homeViewModel = ViewModelProviders.of(this, viewModelFactory)
+        homeViewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(HomeViewModel.class);
     }
 
