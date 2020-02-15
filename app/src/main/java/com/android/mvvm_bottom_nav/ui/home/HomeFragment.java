@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -12,6 +13,9 @@ import com.android.mvvm_bottom_nav.R;
 import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 import com.android.mvvm_bottom_nav.ui.UiHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -49,7 +53,25 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText title = view.findViewById(R.id.editText_title);
+        AutoCompleteTextView title = (AutoCompleteTextView) view.findViewById(R.id.textView_title);
+
+        List<Book> books = new ArrayList<>();
+        books.add(new Book("Lion King"));
+        books.add(new Book("Cinderella"));
+        books.add(new Book("Bambi"));
+        books.add(new Book("Little Mermaid"));
+        books.add(new Book("Robin Wood"));
+
+        AutoCompleteBookAdapter adapter = new AutoCompleteBookAdapter(getContext(),
+                R.layout.item_row_search, books);
+
+        title.setAdapter(adapter);
+        title.setOnItemClickListener((parent, view1, position, id) -> {
+            title.setText(adapter.getItem(position).getTitle());
+            UiHelper.hideKeyboard(getView());
+        });
+
+        EditText author = view.findViewById(R.id.textView_author);
 
         Button add = view.findViewById(R.id.button_add);
         add.setOnClickListener(v -> {
