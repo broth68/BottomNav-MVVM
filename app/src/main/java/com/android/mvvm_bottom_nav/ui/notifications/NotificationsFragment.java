@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.android.mvvm_bottom_nav.R;
+import com.android.mvvm_bottom_nav.databinding.FragmentNotificationsBinding;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 
 import javax.inject.Inject;
@@ -24,7 +23,7 @@ public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel notificationsViewModel;
 
-    private TextView textView;
+    private FragmentNotificationsBinding binding;
 
 
     @Override
@@ -36,19 +35,18 @@ public class NotificationsFragment extends Fragment {
         notificationsViewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(NotificationsViewModel.class);
 
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), s -> textView.setText(s));
+        notificationsViewModel.getText().observe(getViewLifecycleOwner(),
+                s -> binding.textNotifications.setText(s));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_notifications, container, false);
+        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        textView = view.findViewById(R.id.text_notifications);
     }
 }

@@ -1,5 +1,6 @@
 package com.android.mvvm_bottom_nav.ui.dashboard;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -7,8 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.mvvm_bottom_nav.R;
 import com.android.mvvm_bottom_nav.data.Book;
+import com.android.mvvm_bottom_nav.databinding.FragmentDashboardBinding;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 
 import java.util.Locale;
@@ -37,6 +38,8 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
     private TextToSpeech textToSpeech;
     private boolean ttsAvailable = false;
 
+    private FragmentDashboardBinding binding;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -53,8 +56,8 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
@@ -63,7 +66,7 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
 
         cardListAdapter = new CardListAdapter(getContext(), this);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(cardListAdapter);
@@ -87,8 +90,18 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
     @Override
     public void onItemClick(Book item) {
         if (ttsAvailable) {
-            textToSpeech.speak(item.getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                textToSpeech.speak(item.getTitle(), TextToSpeech.QUEUE_FLUSH, null, "ttsId");
+            } else {
+                textToSpeech.speak(item.getTitle(), TextToSpeech.QUEUE_FLUSH, null);
+            }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 
     @Override
