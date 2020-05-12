@@ -2,7 +2,7 @@ package com.android.mvvm_bottom_nav;
 
 import android.os.Bundle;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.android.mvvm_bottom_nav.databinding.ActivityMainBinding;
 
 import javax.inject.Inject;
 
@@ -21,28 +21,30 @@ public class MainActivity extends AppCompatActivity implements HasAndroidInjecto
     @Inject
     DispatchingAndroidInjector<Object> androidInjector;
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AndroidInjection.inject(this);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         setupNavigation();
     }
 
     void setupNavigation() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home,
                 R.id.navigation_dashboard,
-                R.id.navigation_notifications)
-                .build();
+                R.id.navigation_notifications
+        ).build();
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
     @Override

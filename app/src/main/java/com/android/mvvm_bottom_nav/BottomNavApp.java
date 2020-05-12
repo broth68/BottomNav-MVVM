@@ -11,7 +11,7 @@ import dagger.android.HasAndroidInjector;
 
 public class BottomNavApp extends MultiDexApplication implements HasAndroidInjector {
     @Inject
-    DispatchingAndroidInjector<Object> dispatchingAndroidInjector;
+    DispatchingAndroidInjector<Object> androidInjector;
 
     @Override
     public void onCreate() {
@@ -22,6 +22,6 @@ public class BottomNavApp extends MultiDexApplication implements HasAndroidInjec
 
     @Override
     public AndroidInjector<Object> androidInjector() {
-        return dispatchingAndroidInjector;
+        return androidInjector;
     }
 }

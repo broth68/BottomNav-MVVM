@@ -12,6 +12,7 @@ import com.android.mvvm_bottom_nav.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardViewHolder> {
@@ -25,6 +26,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
         this.listener = listener;
     }
 
+    @NonNull
     @Override
     public CardViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         View trackView = LayoutInflater.from(parent.getContext())
@@ -69,7 +71,7 @@ public class CardListAdapter extends RecyclerView.Adapter<CardListAdapter.CardVi
     /**
      * ViewHolder class
      */
-    public class CardViewHolder extends RecyclerView.ViewHolder {
+    public static class CardViewHolder extends RecyclerView.ViewHolder {
 
         private TextView title;
 

@@ -4,12 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.mvvm_bottom_nav.R;
 import com.android.mvvm_bottom_nav.data.Book;
+import com.android.mvvm_bottom_nav.databinding.FragmentHomeBinding;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 import com.android.mvvm_bottom_nav.ui.UiHelper;
 
@@ -28,6 +26,8 @@ public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
+    private FragmentHomeBinding binding;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -41,21 +41,18 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        EditText title = view.findViewById(R.id.editText_title);
-
-        Button add = view.findViewById(R.id.button_add);
-        add.setOnClickListener(v -> {
-            if (!(title.getText().toString()).trim().isEmpty()) {
-                homeViewModel.insert(new Book(title.getText().toString()));
-                title.setText("");
+        binding.buttonAdd.setOnClickListener(v -> {
+            if (!(binding.editTextTitle.getText().toString()).trim().isEmpty()) {
+                homeViewModel.insert(new Book(binding.editTextTitle.getText().toString()));
+                binding.editTextTitle.setText("");
                 UiHelper.hideKeyboard(v);
             } else {
                 Toast.makeText(getContext(), "Error. Please define a valid title.",
@@ -63,7 +60,12 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        Button clear = view.findViewById(R.id.button_clear);
-        clear.setOnClickListener(v -> homeViewModel.deleteAll());
+        binding.buttonClear.setOnClickListener(v -> homeViewModel.deleteAll());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }
