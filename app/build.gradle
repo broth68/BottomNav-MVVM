@@ -22,9 +22,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    viewBinding {
+        enabled = true
+    }
+
     allprojects {
         tasks.withType(JavaCompile) {
-            //options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
         }
     }
 }
