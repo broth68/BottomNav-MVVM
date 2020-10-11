@@ -1,0 +1,25 @@
+ext {
+    // Architecture
+    appcompat = '1.2.0'
+    constraintlayout = '2.0.2'
+    dagger = '2.29.1'
+    lifecycle = '2.2.0'
+    material = '1.2.1'
+    multidex = '1.0.3'
+    navigation = '2.3.0'
+    room = '2.2.5'
+    vectordrawable = '1.1.0'
+
+    // Tools
+    glide = '4.11.0'
+    gson = '2.8.6'
+    okhttp3 = '4.8.1'
+    retrofit = '2.9.0'
+
+    // Tests
+    junit = '4.13'
+    runner = '1.3.0'
+    espresso = '3.3.0'
+    mockito = '3.5.0'
+    timber = '4.7.1'
+}
