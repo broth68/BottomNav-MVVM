@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import io.reactivex.rxjava3.core.Completable;
 
 public class HomeViewModel extends ViewModel {
 
@@ -26,8 +27,8 @@ public class HomeViewModel extends ViewModel {
         return books;
     }
 
-    public void insert(Book book) {
-        bookRepository.insert(book);
+    public Completable insert(Book book) {
+        return bookRepository.insert(book);
     }
 
     public void delete(Book book) {
