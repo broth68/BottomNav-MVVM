@@ -53,4 +53,10 @@ public class NotificationsFragment extends Fragment {
 
         binding.buttonDefault.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DEFAULT));
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 }
