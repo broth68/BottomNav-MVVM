@@ -44,19 +44,6 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
     private FragmentDashboardBinding binding;
 
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-        dashboardViewModel = new ViewModelProvider(this, viewModelFactory)
-                .get(DashboardViewModel.class);
-
-        dashboardViewModel.getBooks().observe(getViewLifecycleOwner(),
-                cards -> cardListAdapter.setData(cards));
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
@@ -88,6 +75,19 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
                 Log.e("TextToSpeech", "Initialization failed");
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        AndroidSupportInjection.inject(this);
+
+        dashboardViewModel = new ViewModelProvider(this, viewModelFactory)
+                .get(DashboardViewModel.class);
+
+        dashboardViewModel.getBooks().observe(getViewLifecycleOwner(),
+                cards -> cardListAdapter.setData(cards));
     }
 
     @Override
@@ -123,17 +123,17 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
-    }
-
-    @Override
     public void onStop() {
         if(textToSpeech != null) {
             textToSpeech.stop();
             textToSpeech.shutdown();
         }
         super.onStop();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

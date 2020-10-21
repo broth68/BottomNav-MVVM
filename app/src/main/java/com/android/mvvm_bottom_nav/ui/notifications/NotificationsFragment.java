@@ -27,16 +27,6 @@ public class NotificationsFragment extends Fragment {
     private FragmentNotificationsBinding binding;
 
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-        notificationsViewModel = new ViewModelProvider(this, viewModelFactory)
-                .get(NotificationsViewModel.class);
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentNotificationsBinding.inflate(inflater, container, false);
@@ -52,6 +42,16 @@ public class NotificationsFragment extends Fragment {
         binding.buttonDark.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DARK_MODE));
 
         binding.buttonDefault.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DEFAULT));
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        AndroidSupportInjection.inject(this);
+
+        notificationsViewModel = new ViewModelProvider(this, viewModelFactory)
+                .get(NotificationsViewModel.class);
     }
 
     @Override

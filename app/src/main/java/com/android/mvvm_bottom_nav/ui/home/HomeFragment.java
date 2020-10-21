@@ -34,16 +34,6 @@ public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
 
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-        homeViewModel = new ViewModelProvider(this, viewModelFactory)
-                .get(HomeViewModel.class);
-    }
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
@@ -92,6 +82,16 @@ public class HomeFragment extends Fragment {
 
     public void showToast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        AndroidSupportInjection.inject(this);
+
+        homeViewModel = new ViewModelProvider(this, viewModelFactory)
+                .get(HomeViewModel.class);
     }
 
     @Override
