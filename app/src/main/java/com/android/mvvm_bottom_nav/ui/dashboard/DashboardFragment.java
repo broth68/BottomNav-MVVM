@@ -1,12 +1,12 @@
 package com.android.mvvm_bottom_nav.ui.dashboard;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.databinding.FragmentDashboardBinding;
@@ -24,6 +24,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import dagger.android.support.AndroidSupportInjection;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.observers.DisposableMaybeObserver;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class DashboardFragment extends Fragment implements CardListAdapter.OnItemClickListener {
 
@@ -89,13 +92,34 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
 
     @Override
     public void onItemClick(Book item) {
+        dashboardViewModel.getBookById(item.getId())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new DisposableMaybeObserver<Book>() {
+                    @Override
+                    public void onSuccess(@NonNull Book book) {
+                        showToast("Emitted item: " + book.getTitle());
+                    }
+
+                    @Override
+                    public void onError(@NonNull Throwable e) {
+                        showToast("Error: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        showToast("Completed. No item.");
+                    }
+                }
+        );
+
         if (ttsAvailable) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                textToSpeech.speak(item.getTitle(), TextToSpeech.QUEUE_FLUSH, null, "ttsId");
-            } else {
-                textToSpeech.speak(item.getTitle(), TextToSpeech.QUEUE_FLUSH, null);
-            }
+            textToSpeech.speak(item.getTitle(), TextToSpeech.QUEUE_FLUSH, null, "ttsId");
         }
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override

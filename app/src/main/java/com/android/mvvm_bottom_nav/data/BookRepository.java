@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Maybe;
 
 @Singleton
 public class BookRepository {
@@ -27,8 +29,12 @@ public class BookRepository {
         return bookDao.findById(id);
     }
 
-    public void insert(Book book) {
-        appExecutors.diskIO().execute(() -> bookDao.insertOrReplace(book));
+    public Maybe<Book> getBookById(int id) {
+        return bookDao.findBookById(id);
+    }
+
+    public Completable insert(Book book) {
+        return bookDao.insertOrReplace(book);
     }
 
     public void delete(Book book) {

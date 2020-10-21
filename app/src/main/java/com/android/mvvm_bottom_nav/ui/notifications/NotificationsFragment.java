@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.android.mvvm_bottom_nav.databinding.FragmentNotificationsBinding;
 import com.android.mvvm_bottom_nav.di.ViewModelFactory;
+import com.android.mvvm_bottom_nav.helpers.ThemeHelper;
 
 import javax.inject.Inject;
 
@@ -34,9 +35,6 @@ public class NotificationsFragment extends Fragment {
 
         notificationsViewModel = new ViewModelProvider(this, viewModelFactory)
                 .get(NotificationsViewModel.class);
-
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(),
-                s -> binding.textNotifications.setText(s));
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -48,5 +46,11 @@ public class NotificationsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        binding.buttonLight.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.LIGHT_MODE));
+
+        binding.buttonDark.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DARK_MODE));
+
+        binding.buttonDefault.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DEFAULT));
     }
 }

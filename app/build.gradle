@@ -48,7 +48,7 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:$room"
-    implementation "androidx.room:room-rxjava2:$room"
+    implementation "androidx.room:room-rxjava3:$room"
     annotationProcessor "androidx.room:room-compiler:$room"
     testImplementation "androidx.room:room-testing:$room"
 
@@ -58,6 +58,10 @@ dependencies {
     implementation "com.google.dagger:dagger-android-support:$dagger"
     annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
+
+    // RxJava3
+    implementation "io.reactivex.rxjava3:rxandroid:$rxandroid"
+    implementation "io.reactivex.rxjava3:rxjava:$rxjava3"
 
     testImplementation "junit:junit:$junit"
     androidTestImplementation "androidx.test:runner:$runner"
