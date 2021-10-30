@@ -1,10 +1,11 @@
 package com.android.mvvm_bottom_nav.di.modules;
 
 import dagger.Module;
+import dagger.hilt.InstallIn;
+import dagger.hilt.components.SingletonComponent;
 
-@Module(includes = {
-        ViewModelModule.class
-})
+@InstallIn(SingletonComponent.class)
+@Module(includes = {})
 public class AppModule {
 
 }

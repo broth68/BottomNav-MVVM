@@ -6,26 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.mvvm_bottom_nav.databinding.FragmentNotificationsBinding;
-import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 import com.android.mvvm_bottom_nav.helpers.ThemeHelper;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import dagger.android.support.AndroidSupportInjection;
+import dagger.hilt.android.AndroidEntryPoint;
 
+@AndroidEntryPoint
 public class NotificationsFragment extends Fragment {
-
-    @Inject
-    public ViewModelFactory viewModelFactory;
 
     private NotificationsViewModel notificationsViewModel;
 
     private FragmentNotificationsBinding binding;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        notificationsViewModel = new ViewModelProvider(this)
+                .get(NotificationsViewModel.class);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -42,16 +44,6 @@ public class NotificationsFragment extends Fragment {
         binding.buttonDark.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DARK_MODE));
 
         binding.buttonDefault.setOnClickListener(v -> ThemeHelper.applyTheme(ThemeHelper.DEFAULT));
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-        notificationsViewModel = new ViewModelProvider(this, viewModelFactory)
-                .get(NotificationsViewModel.class);
     }
 
     @Override
