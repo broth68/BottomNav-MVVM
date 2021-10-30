@@ -4,29 +4,20 @@ import android.os.Bundle;
 
 import com.android.mvvm_bottom_nav.databinding.ActivityMainBinding;
 
-import javax.inject.Inject;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasAndroidInjector;
+import dagger.hilt.android.AndroidEntryPoint;
 
-public class MainActivity extends AppCompatActivity implements HasAndroidInjector {
-
-    @Inject
-    DispatchingAndroidInjector<Object> androidInjector;
+@AndroidEntryPoint
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
-
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -45,10 +36,5 @@ public class MainActivity extends AppCompatActivity implements HasAndroidInjecto
 
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
-    }
-
-    @Override
-    public AndroidInjector<Object> androidInjector() {
-        return androidInjector;
     }
 }

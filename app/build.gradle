@@ -1,11 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
+
     defaultConfig {
         applicationId "com.android.mvvm_bottom_nav"
-        minSdkVersion 21
-        targetSdkVersion 29
+        minSdk 21
+        targetSdk 30
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -17,13 +21,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
-    viewBinding {
-        enabled = true
+    buildFeatures {
+        viewBinding true
     }
 
     allprojects {
@@ -52,12 +52,11 @@ dependencies {
     annotationProcessor "androidx.room:room-compiler:$room"
     testImplementation "androidx.room:room-testing:$room"
 
-    // Dagger
-    implementation "com.google.dagger:dagger:$dagger"
-    implementation "com.google.dagger:dagger-android:$dagger"
-    implementation "com.google.dagger:dagger-android-support:$dagger"
-    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger"
-    annotationProcessor "com.google.dagger:dagger-compiler:$dagger"
+    //Hilt
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_jetpack"
+    annotationProcessor "androidx.hilt:hilt-compiler:$hilt_jetpack"
+    implementation "com.google.dagger:hilt-android:$hilt_android"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_android"
 
     // RxJava3
     implementation "io.reactivex.rxjava3:rxandroid:$rxandroid"

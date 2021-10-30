@@ -10,11 +10,8 @@ import android.widget.Toast;
 
 import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.databinding.FragmentDashboardBinding;
-import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,26 +20,29 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import dagger.android.support.AndroidSupportInjection;
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.observers.DisposableMaybeObserver;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@AndroidEntryPoint
 public class DashboardFragment extends Fragment implements CardListAdapter.OnItemClickListener {
-
-    @Inject
-    public ViewModelFactory viewModelFactory;
 
     private DashboardViewModel dashboardViewModel;
 
     private CardListAdapter cardListAdapter;
-    private RecyclerView recyclerView;
 
     private TextToSpeech textToSpeech;
     private boolean ttsAvailable = false;
 
     private FragmentDashboardBinding binding;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
 
         cardListAdapter = new CardListAdapter(getContext(), this);
 
-        recyclerView = binding.recyclerView;
+        RecyclerView recyclerView = binding.recyclerView;
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(cardListAdapter);
@@ -75,16 +75,6 @@ public class DashboardFragment extends Fragment implements CardListAdapter.OnIte
                 Log.e("TextToSpeech", "Initialization failed");
             }
         });
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-        dashboardViewModel = new ViewModelProvider(this, viewModelFactory)
-                .get(DashboardViewModel.class);
 
         dashboardViewModel.getBooks().observe(getViewLifecycleOwner(),
                 cards -> cardListAdapter.setData(cards));

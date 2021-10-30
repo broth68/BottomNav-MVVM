@@ -1,5 +1,8 @@
 package com.android.mvvm_bottom_nav.ui.home;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
+
 import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.data.BookRepository;
 
@@ -7,14 +10,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import io.reactivex.rxjava3.core.Completable;
 
+@HiltViewModel
 public class HomeViewModel extends ViewModel {
 
-    private BookRepository bookRepository;
+    private final BookRepository bookRepository;
     private final LiveData<List<Book>> books;
 
     @Inject

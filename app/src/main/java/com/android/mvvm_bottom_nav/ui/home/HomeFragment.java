@@ -9,30 +9,31 @@ import android.widget.Toast;
 
 import com.android.mvvm_bottom_nav.data.Book;
 import com.android.mvvm_bottom_nav.databinding.FragmentHomeBinding;
-import com.android.mvvm_bottom_nav.di.ViewModelFactory;
 import com.android.mvvm_bottom_nav.ui.UiHelper;
-
-import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import dagger.android.support.AndroidSupportInjection;
+import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.CompletableObserver;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
+@AndroidEntryPoint
 public class HomeFragment extends Fragment {
-
-    @Inject
-    public ViewModelFactory viewModelFactory;
 
     private HomeViewModel homeViewModel;
 
     private FragmentHomeBinding binding;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -82,16 +83,6 @@ public class HomeFragment extends Fragment {
 
     public void showToast(String msg) {
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        AndroidSupportInjection.inject(this);
-
-        homeViewModel = new ViewModelProvider(this, viewModelFactory)
-                .get(HomeViewModel.class);
     }
 
     @Override
