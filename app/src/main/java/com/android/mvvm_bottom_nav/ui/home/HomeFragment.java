@@ -48,11 +48,20 @@ public class HomeFragment extends Fragment {
         ProgressBar progressBar = binding.progressBarHome;
 
         binding.buttonAdd.setOnClickListener(v -> {
-            if (!(binding.editTextTitle.getText().toString()).trim().isEmpty()) {
-                homeViewModel.insert(new Book(binding.editTextTitle.getText().toString()))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new CompletableObserver() {
+            if (!(binding.editTextTitle.getText().toString()).trim().isEmpty()
+                    && !(binding.editTextAuthor.getText().toString()).trim().isEmpty()
+                    && !(binding.editTextDescription.getText().toString()).trim().isEmpty()
+                    && !(binding.editTextOpinion.getText().toString()).trim().isEmpty()) {
+                Book book = new Book(
+                    binding.editTextTitle.getText().toString(),
+                    binding.editTextAuthor.getText().toString(),
+                    binding.editTextDescription.getText().toString(),
+                    binding.editTextOpinion.getText().toString()
+                );
+                homeViewModel.insert(book)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(new CompletableObserver() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
                         progressBar.setVisibility(View.VISIBLE);
