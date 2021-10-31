@@ -11,6 +11,16 @@ public class Book {
         this.title = title;
     }
 
+    public Book(@NonNull String title,
+                @NonNull String author,
+                @NonNull String description,
+                @NonNull String opinion) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.opinion = opinion;
+    }
+
     public int STATUS_UNKNOWN = 0;
     public int STATUS_TO_READ = 1;
     public int STATUS_ONGOING = 2;
